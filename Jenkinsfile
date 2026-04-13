@@ -10,19 +10,14 @@ pipeline {
 
         stage('Build image') {
             steps {
-                script {
-                    docker.build("markokadzbanov/my-nginx-app")
-                }
+                sh 'docker build -t markokadzbanov/jenkins-demo .'
             }
         }
 
         stage('Push image') {
             steps {
-                script {
-                    docker.withRegistry('', 'dockerhub-credentials') {
-                        docker.image("markokadzbanov/my-nginx-app").push()
-                    }
-                }
+                sh 'docker login -u markokadzbanov -p dckr_pat_LNWtlOet2MABc7nnCnCW5ZxYHEI'
+                sh 'docker push markokadzbanov/jenkins-demo'
             }
         }
     }
